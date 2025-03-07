@@ -1,12 +1,48 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+
+import React, { useEffect } from 'react';
+import Navbar from '@/components/Navbar';
+import HeroSection from '@/components/HeroSection';
+import PackagesSection from '@/components/PackagesSection';
+import TestimonialsSection from '@/components/TestimonialsSection';
+import UrgencySection from '@/components/UrgencySection';
+import FooterSection from '@/components/FooterSection';
+import ScrollToTopButton from '@/components/ScrollToTopButton';
 
 const Index = () => {
+  // Smooth scroll to sections when clicking on navigation links
+  useEffect(() => {
+    const handleHashChange = () => {
+      const { hash } = window.location;
+      if (hash) {
+        const element = document.querySelector(hash);
+        if (element) {
+          setTimeout(() => {
+            window.scrollTo({
+              top: element.getBoundingClientRect().top + window.scrollY - 100,
+              behavior: 'smooth'
+            });
+          }, 0);
+        }
+      }
+    };
+
+    // Handle initial hash on page load
+    handleHashChange();
+
+    // Set up listener for hash changes (when user clicks on navigation links)
+    window.addEventListener('hashchange', handleHashChange);
+    return () => window.removeEventListener('hashchange', handleHashChange);
+  }, []);
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
-      </div>
+    <div className="overflow-x-hidden">
+      <Navbar />
+      <HeroSection />
+      <PackagesSection />
+      <TestimonialsSection />
+      <UrgencySection />
+      <FooterSection />
+      <ScrollToTopButton />
     </div>
   );
 };
